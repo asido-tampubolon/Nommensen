@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Filament\Admin\Resources\Visimisis;
+
+use App\Filament\Admin\Resources\Visimisis\Pages\CreateVisimisi;
+use App\Filament\Admin\Resources\Visimisis\Pages\EditVisimisi;
+use App\Filament\Admin\Resources\Visimisis\Pages\ListVisimisis;
+use App\Filament\Admin\Resources\Visimisis\Pages\ViewVisimisi;
+use App\Filament\Admin\Resources\Visimisis\Schemas\VisimisiForm;
+use App\Filament\Admin\Resources\Visimisis\Schemas\VisimisiInfolist;
+use App\Filament\Admin\Resources\Visimisis\Tables\VisimisisTable;
+use App\Models\Visimisi;
+use BackedEnum;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
+
+class VisimisiResource extends Resource
+{
+    protected static ?string $model = Visimisi::class;
+
+    protected static ?string $navigationLabel = 'Visi & Misi';
+    protected static ?string $modelLabel = 'Visi & Misi';
+    protected static ?string $pluralModelLabel = 'Visi & Misi';
+    protected static string|\UnitEnum|null $navigationGroup = 'Profil Universitas';
+    protected static ?int $navigationSort = 3;
+
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?string $recordTitleAttribute = 'Visimisi';
+
+    public static function form(Schema $schema): Schema
+    {
+        return VisimisiForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return VisimisiInfolist::configure($schema);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return VisimisisTable::configure($table);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => ListVisimisis::route('/'),
+            'create' => CreateVisimisi::route('/create'),
+            'view' => ViewVisimisi::route('/{record}'),
+            'edit' => EditVisimisi::route('/{record}/edit'),
+        ];
+    }
+}
