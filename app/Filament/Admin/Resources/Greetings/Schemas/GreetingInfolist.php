@@ -13,14 +13,23 @@ class GreetingInfolist
         return $schema
             ->components([
                 TextEntry::make('content')
+                    ->label('Isi Sambutan')
+                    ->html()
                     ->columnSpanFull(),
+
                 ImageEntry::make('image')
+                    ->label('Foto Pimpinan')
+                    ->disk('public')
                     ->columnSpanFull(),
+
                 TextEntry::make('created_at')
-                    ->dateTime()
+                    ->label('Ditambahkan')
+                    ->dateTime('d M Y H:i')
                     ->placeholder('-'),
+
                 TextEntry::make('updated_at')
-                    ->dateTime()
+                    ->label('Diperbarui')
+                    ->dateTime('d M Y H:i')
                     ->placeholder('-'),
             ]);
     }

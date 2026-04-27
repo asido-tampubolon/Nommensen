@@ -2,7 +2,8 @@
 
 namespace App\Filament\Admin\Resources\Facilities\Schemas;
 
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Schema;
 
 class FacilityForm
@@ -11,11 +12,30 @@ class FacilityForm
     {
         return $schema
             ->components([
-                Textarea::make('content')
+                RichEditor::make('content')
+                    ->label('Deskripsi Fasilitas')
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'bulletList',
+                        'orderedList',
+                        'link',
+                        'h2',
+                        'h3',
+                    ])
                     ->required()
+                    ->helperText('Tuliskan deskripsi fasilitas.')
                     ->columnSpanFull(),
-                Textarea::make('image')
+
+                FileUpload::make('image')
+                    ->label('Foto Fasilitas')
+                    ->image()
+                    ->directory('facilities')
+                    ->visibility('public')
+                    ->imagePreviewHeight('200')
+                    ->maxSize(3072)
                     ->required()
+                    ->helperText('Upload foto fasilitas maksimal 3MB.')
                     ->columnSpanFull(),
             ]);
     }

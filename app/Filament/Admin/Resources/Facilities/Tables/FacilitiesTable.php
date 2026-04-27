@@ -3,12 +3,14 @@
 namespace App\Filament\Admin\Resources\Facilities\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Filament\Actions\DeleteAction;
+use Illuminate\Support\Str;
 
 class FacilitiesTable
 {
@@ -16,12 +18,27 @@ class FacilitiesTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label('Foto')
+                    ->disk('public')
+                    ->height(60),
+
+                TextColumn::make('content')
+                    ->label('Deskripsi')
+                    ->formatStateUsing(
+                        fn (?string $state): string =>
+                        Str::limit(strip_tags($state ?? ''), 100)
+                    )
+                    ->wrap(),
+
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Ditambahkan')
+                    ->dateTime('d M Y H:i')
+                    ->sortable(),
+
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Diperbarui')
+                    ->dateTime('d M Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -37,6 +54,7 @@ class FacilitiesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 }

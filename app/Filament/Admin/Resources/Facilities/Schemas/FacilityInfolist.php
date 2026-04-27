@@ -13,14 +13,23 @@ class FacilityInfolist
         return $schema
             ->components([
                 TextEntry::make('content')
+                    ->label('Deskripsi Fasilitas')
+                    ->html()
                     ->columnSpanFull(),
+
                 ImageEntry::make('image')
+                    ->label('Foto Fasilitas')
+                    ->disk('public')
                     ->columnSpanFull(),
+
                 TextEntry::make('created_at')
-                    ->dateTime()
+                    ->label('Ditambahkan')
+                    ->dateTime('d M Y H:i')
                     ->placeholder('-'),
+
                 TextEntry::make('updated_at')
-                    ->dateTime()
+                    ->label('Diperbarui')
+                    ->dateTime('d M Y H:i')
                     ->placeholder('-'),
             ]);
     }

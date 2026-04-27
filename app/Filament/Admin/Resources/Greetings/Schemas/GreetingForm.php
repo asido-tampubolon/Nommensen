@@ -2,7 +2,8 @@
 
 namespace App\Filament\Admin\Resources\Greetings\Schemas;
 
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Schema;
 
 class GreetingForm
@@ -11,11 +12,34 @@ class GreetingForm
     {
         return $schema
             ->components([
-                Textarea::make('content')
+                RichEditor::make('content')
+                    ->label('Isi Sambutan')
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'bulletList',
+                        'orderedList',
+                        'link',
+                        'h2',
+                        'h3',
+                        'blockquote',
+                        'redo',
+                        'undo',
+                    ])
                     ->required()
+                    ->helperText('Tulis isi sambutan pimpinan.')
                     ->columnSpanFull(),
-                Textarea::make('image')
+
+                FileUpload::make('image')
+                    ->label('Foto Pimpinan')
+                    ->image()
+                    ->directory('greetings')
+                    ->visibility('public')
+                    ->imagePreviewHeight('200')
+                    ->maxSize(2048)
                     ->required()
+                    ->helperText('Upload foto pimpinan maksimal 2MB.')
                     ->columnSpanFull(),
             ]);
     }
