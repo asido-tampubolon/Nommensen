@@ -9,6 +9,8 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Actions\DeleteAction;
+use Filament\Tables\Columns\ImageColumn;
+use Illuminate\Support\Str;
 
 class HistoriesTable
 {
@@ -16,15 +18,31 @@ class HistoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
+    ImageColumn::make('image')
+        ->label('Foto')
+        ->disk('public')
+        ->height(60),
+
+    TextColumn::make('content')
+        ->label('Cuplikan Sejarah')
+        ->formatStateUsing(
+            fn (?string $state): string =>
+                Str::limit(strip_tags($state ?? ''), 100)
+        )
+        ->wrap()
+        ->searchable(),
+
+    TextColumn::make('created_at')
+        ->label('Ditambahkan')
+        ->dateTime('d M Y H:i')
+        ->sortable()
+        ->toggleable(isToggledHiddenByDefault: true),
+
+    TextColumn::make('updated_at')
+        ->label('Diperbarui')
+        ->dateTime('d M Y H:i')
+        ->sortable(),
+])
             ->filters([
                 //
             ])

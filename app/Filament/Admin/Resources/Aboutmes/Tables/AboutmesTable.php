@@ -9,6 +9,8 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Actions\DeleteAction;
+use Filament\Tables\Columns\ImageColumn;
+use Illuminate\Support\Str;
 
 class AboutmesTable
 {
@@ -16,15 +18,30 @@ class AboutmesTable
     {
         return $table
             ->columns([
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
+    ImageColumn::make('image')
+        ->label('Foto')
+        ->disk('public')
+        ->stacked()
+        ->limit(3),
+
+    TextColumn::make('content')
+        ->label('Deskripsi')
+        ->formatStateUsing(
+            fn (?string $state): string =>
+                Str::limit(strip_tags($state ?? ''), 100)
+        )
+        ->wrap()
+        ->searchable(),
+
+    TextColumn::make('updated_at')
+        ->dateTime('d M Y H:i')
+        ->sortable(),
+
+    TextColumn::make('created_at')
+        ->dateTime('d M Y H:i')
+        ->sortable()
+        ->toggleable(isToggledHiddenByDefault: true),
+])
             ->filters([
                 //
             ])

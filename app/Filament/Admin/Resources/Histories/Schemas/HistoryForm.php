@@ -2,7 +2,8 @@
 
 namespace App\Filament\Admin\Resources\Histories\Schemas;
 
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Schema;
 
 class HistoryForm
@@ -11,11 +12,30 @@ class HistoryForm
     {
         return $schema
             ->components([
-                Textarea::make('content')
+                RichEditor::make('content')
+                    ->label('Isi Sejarah')
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'bulletList',
+                        'orderedList',
+                        'link',
+                        'h3',
+                    ])
                     ->required()
+                    ->helperText('Ceritakan sejarah pendirian dan perkembangan universitas.')
                     ->columnSpanFull(),
-                Textarea::make('image')
+
+                FileUpload::make('image')
+                    ->label('Foto Bersejarah')
+                    ->image()
+                    ->directory('histories')
+                    ->visibility('public')
+                    ->imagePreviewHeight('200')
+                    ->maxSize(2048)
                     ->required()
+                    ->helperText('Foto gedung lama / momen bersejarah. Maks 2MB.')
                     ->columnSpanFull(),
             ]);
     }

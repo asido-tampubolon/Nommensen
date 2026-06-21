@@ -2,8 +2,10 @@
 
 namespace App\Filament\Admin\Resources\Aboutmes\Schemas;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+
 
 class AboutmeForm
 {
@@ -12,11 +14,19 @@ class AboutmeForm
         return $schema
             ->components([
                 Textarea::make('content')
+                    ->label('Deskripsi Profil')
                     ->required()
+                    ->rows(5)
                     ->columnSpanFull(),
-                Textarea::make('image')
-                    ->required()
-                    ->columnSpanFull(),
+
+               FileUpload::make('image')
+    ->image()
+    ->multiple()
+    ->reorderable()
+    ->maxFiles(5)
+    ->directory('aboutmes')
+    ->visibility('public')
+    ->required()
             ]);
     }
 }
