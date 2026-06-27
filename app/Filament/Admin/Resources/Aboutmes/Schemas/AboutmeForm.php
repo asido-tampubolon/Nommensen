@@ -20,13 +20,13 @@ class AboutmeForm
                     ->columnSpanFull(),
 
                FileUpload::make('image')
-    ->image()
-    ->multiple()
-    ->reorderable()
-    ->maxFiles(5)
-    ->directory('aboutmes')
-    ->visibility('public')
-    ->required()
-            ]);
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->maxFiles(5)
+                    ->directory('aboutmes')
+                    ->visibility('public')
+                    ->required()
+                        ]);
     }
 }
